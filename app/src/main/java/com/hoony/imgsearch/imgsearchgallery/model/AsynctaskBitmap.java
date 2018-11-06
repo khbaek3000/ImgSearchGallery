@@ -16,6 +16,7 @@ public class AsynctaskBitmap extends AsyncTask<String, Void, Bitmap> {
     @Override
     protected Bitmap doInBackground(String... strings) {
 
+        // 검색결과로 부터의 데이터에서 얻은 thumbnail과 원본 이미지를 불러오는 역할을 합니다.
         String imgURL = strings[0];
 
         try{

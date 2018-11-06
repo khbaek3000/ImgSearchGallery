@@ -16,7 +16,7 @@ public class AsynctaskModule extends AsyncTask<String, Void, String> {
     @Override
     protected String doInBackground(String... strings) {
 
-
+        //검색 키워드에 대한 데이터를 네이버 api에서 받아오는 역할을 합니다.
         String clientId = "fRjOFUMjaOU4099diaRf";
         String clientSecret = "Y0emNa1tXK";
         int display = 60; //초기설정 12

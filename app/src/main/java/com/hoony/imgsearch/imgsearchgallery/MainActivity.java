@@ -42,6 +42,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        //에디트텍스트, 검색버튼, 그리드뷰 선언
         etSearch = (EditText) findViewById(R.id.et_main_search);
         ibtnSearch = (ImageButton) findViewById(R.id.btn_main_search);
         gvGallery = (GridView) findViewById(R.id.gv_main_gallery);
@@ -70,6 +71,7 @@ public class MainActivity extends AppCompatActivity {
         gvGallery.setOnScrollListener(new AbsListView.OnScrollListener() {
             @Override
             public void onScrollStateChanged(AbsListView absListView, int i) {
+                // 아래로 더 이상 스크롤 할 수 없을 경우
                if(!gvGallery.canScrollVertically(1)){
                    mResult = scrollSearch(keyword);
                   resultProcess(mResult);
@@ -97,6 +99,7 @@ public class MainActivity extends AppCompatActivity {
 
     public String search(String string){
 
+        // 처음 검색 키워드를 입력하고 검색할 경우 검색결과를 불러오는 메서드
         String result="";
         mArrayList.clear();
         start = 1;
@@ -113,6 +116,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public String scrollSearch(String string){
+        // 아래로 스크롤 시 검색결과를 더 불러오는 메서드
         String result = "";
         start += display;
 
@@ -128,6 +132,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void resultProcess(String result){
 
+        // 검색 결과로 얻은 json 데이터를 객체에 저장하는 메서드
         try {
             JSONObject jsonObject = new JSONObject(result);
             total = jsonObject.getInt("total");
