@@ -41,7 +41,6 @@
             android:layout_height="match_parent"
             android:id="@+id/gv_main_gallery"
             android:numColumns="3"
-            android:stretchMode="columnWidth"
 
             android:horizontalSpacing="5dp"
             android:verticalSpacing="5dp"

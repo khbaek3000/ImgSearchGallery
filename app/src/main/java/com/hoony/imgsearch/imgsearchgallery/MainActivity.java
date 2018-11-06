@@ -1,11 +1,14 @@
 package com.hoony.imgsearch.imgsearchgallery;
 
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.graphics.Bitmap;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
@@ -34,8 +37,11 @@ public class MainActivity extends AppCompatActivity {
     int start =1;
     int display = 60;
     int total;
+    Parcelable state;
+
     ArrayList<ItemsData> mArrayList;
     GvAdapter gvAdapter;
+
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -49,12 +55,16 @@ public class MainActivity extends AppCompatActivity {
 
         mArrayList = new ArrayList<>();
         gvAdapter = new GvAdapter(getApplicationContext(), mArrayList, R.layout.row);
+        gvGallery.setAdapter(gvAdapter);
 
+        if(state !=null)
+            gvGallery.onRestoreInstanceState(state);
     }
 
     @Override
     protected void onResume() {
         super.onResume();
+
         ibtnSearch.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -67,7 +77,6 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        gvGallery.setAdapter(gvAdapter);
         gvGallery.setOnScrollListener(new AbsListView.OnScrollListener() {
             @Override
             public void onScrollStateChanged(AbsListView absListView, int i) {
@@ -91,6 +100,7 @@ public class MainActivity extends AppCompatActivity {
                 Intent intent = new Intent(MainActivity.this, ImgViewActivity.class);
                 intent.putExtra("imglink", sendData.getImgLink());
                 intent.putExtra("title", sendData.getTitle());
+
                 startActivity(intent);
             }
         });
@@ -172,4 +182,23 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        Log.d("state save", "상태 저장");
+        state = gvGallery.onSaveInstanceState();
+
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+
+    }
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+    }
 }
