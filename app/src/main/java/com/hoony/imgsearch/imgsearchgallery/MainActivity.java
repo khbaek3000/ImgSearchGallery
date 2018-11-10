@@ -35,9 +35,10 @@ public class MainActivity extends AppCompatActivity {
     String keyword;
     String mResult;
     int start =1;
-    int display = 60;
+    int display = 30;
     int total;
-    Parcelable state;
+
+    //Parcelable state;
 
     ArrayList<ItemsData> mArrayList;
     GvAdapter gvAdapter;
@@ -57,8 +58,10 @@ public class MainActivity extends AppCompatActivity {
         gvAdapter = new GvAdapter(getApplicationContext(), mArrayList, R.layout.row);
         gvGallery.setAdapter(gvAdapter);
 
+        /*
         if(state !=null)
             gvGallery.onRestoreInstanceState(state);
+            */
     }
 
     @Override
@@ -72,6 +75,7 @@ public class MainActivity extends AppCompatActivity {
                 if(!(keyword.equals(""))){
                     start = 1;
                     mResult = search(keyword);
+                    Log.d("main search button", "search success");
                     resultProcess(mResult);
                 }
             }
@@ -81,7 +85,8 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onScrollStateChanged(AbsListView absListView, int i) {
                 // 아래로 더 이상 스크롤 할 수 없을 경우
-               if(!gvGallery.canScrollVertically(1)){
+               if((!gvGallery.canScrollVertically(1))){
+
                    mResult = scrollSearch(keyword);
                   resultProcess(mResult);
 
@@ -130,6 +135,7 @@ public class MainActivity extends AppCompatActivity {
         String result = "";
         start += display;
 
+        //mArrayList.clear();
         AsynctaskModule scrollAsynctask = new AsynctaskModule();
         try{
             result = scrollAsynctask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, string, ""+start).get();
@@ -159,14 +165,15 @@ public class MainActivity extends AppCompatActivity {
                 AsynctaskBitmap bitmapAsynctask = new AsynctaskBitmap();
                 ItemsData itemsData = new ItemsData();
 
+                Log.d("main bmp try", "bitmap try");
                 try{
-                    thumbnail = bitmapAsynctask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, thumbLink).get();
+                    thumbnail = bitmapAsynctask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, imgLink, "thumb").get();
                     itemsData.setBitThumbnail(thumbnail);
 
                 }catch (Exception e){
                     e.printStackTrace();
                 }
-
+                Log.d("main bmp try success", "bitmap success");
                 itemsData.setTitle(title);
                 itemsData.setImgLink(imgLink);
                 itemsData.setSizeheight(sizeheight);
@@ -176,6 +183,7 @@ public class MainActivity extends AppCompatActivity {
             }
 
             gvAdapter.notifyDataSetChanged();
+
         }catch (Exception e){
             e.printStackTrace();
         }
@@ -187,7 +195,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onPause() {
         super.onPause();
         Log.d("state save", "상태 저장");
-        state = gvGallery.onSaveInstanceState();
+        //state = gvGallery.onSaveInstanceState();
 
     }
 

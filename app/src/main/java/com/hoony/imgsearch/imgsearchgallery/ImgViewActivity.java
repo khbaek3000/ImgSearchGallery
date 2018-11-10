@@ -30,7 +30,7 @@ public class ImgViewActivity extends AppCompatActivity {
         AsynctaskBitmap bitmapAsynctask = new AsynctaskBitmap();
 
         try{
-            bitmap = bitmapAsynctask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, imglink).get();
+            bitmap = bitmapAsynctask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, imglink, "original").get();
         }catch (Exception e){
             e.printStackTrace();
         }
